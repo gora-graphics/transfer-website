@@ -1,6 +1,7 @@
 let img;
 let leftPg;
 let maskPg;
+cnv.parent("container");
 
 let scaleFactor = 0.5;
 let brushSize = 100;
