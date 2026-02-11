@@ -1,23 +1,18 @@
-{"variant":"standard","id":"55109"}
-
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Image Memory Transfer</title>
+  <title>Image Transfer</title>
 
-  <!-- p5 library -->
-
+  <!-- p5 -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
 
   <style>
     html, body {
-      width: 100%;
-      height: 100%;
       margin: 0;
       padding: 0;
+      width: 100%;
+      height: 100%;
     }
 
     body {
@@ -26,57 +21,40 @@
 
       display: flex;
       flex-direction: column;
-      align-items: center;        /* horizontal center */
+      align-items: center;
     }
 
     #container {
       display: flex;
       justify-content: center;
-      width: 100%;
       margin-top: 20px;
-    }
-
-    canvas {
-      display: block;             /* removes small gaps */
     }
 
     #info {
       margin-top: 12px;
       font-size: 14px;
-      line-height: 1.6;
       text-align: center;
       color: #333;
     }
   </style>
-
 </head>
 
 <body>
 
-  <!-- p5 canvas will be injected here -->
-
+  <!-- Canvas holder -->
   <div id="container"></div>
 
   <!-- Instructions -->
-
   <div id="info">
+    <b>HOW TO INTERACT</b><br><br>
 
-```
-<b>HOW TO INTERACT</b><br>
-
-• Drag on the <b>RIGHT</b> image → reveal on the <b>LEFT</b><br>
-
-• Press <b>+</b> : increase circle size<br>
-
-• Press <b>-</b> : decrease circle size<br>
-
-• Press <b>S</b> : save the whole canvas
-```
-
+    Drag on the <b>RIGHT</b> image to reveal on the <b>LEFT</b><br>
+    <b>+</b> Increase circle size<br>
+    <b>-</b> Decrease circle size<br>
+    <b>S</b> Save canvas
   </div>
 
-  <!-- your sketch -->
-
+  <!-- Your sketch -->
   <script src="sketch.js"></script>
 
 </body>
