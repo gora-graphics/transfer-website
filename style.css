@@ -1,30 +1,35 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: #f2f2f2;
-  margin: 0;
   font-family: Arial, sans-serif;
 
-  /* ---- CENTER EVERYTHING ---- */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: center; /* horizontal centering */
 }
 
-/* container that holds p5 canvas */
 #container {
-  margin-top: 20px;
-
-  /* ensures canvas itself stays centered */
   display: flex;
   justify-content: center;
+  width: 100%;
+  margin-top: 20px;
 }
 
-/* bottom instructions */
+canvas {
+  display: block; /* prevents tiny gaps on sides */
+}
+
 #info {
-  margin-top: 12px;
-
+  margin-top: 10px;
   font-size: 14px;
-  line-height: 1.6;
-
+  text-align: center;
   color: #333;
-  text-align: center;     /* text centered */
+  opacity: 0.85;
 }
