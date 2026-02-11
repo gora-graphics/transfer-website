@@ -10,6 +10,12 @@ function preload() {
 }
 
 function setup() {
+let cnv;
+
+function setup() {
+  cnv = createCanvas(displayW * 2, displayH);
+  cnv.parent("container");   // ← THIS LINE IS MANDATORY
+}
 
   let displayW = int(img.width * scaleFactor);
   let displayH = int(img.height * scaleFactor);
