@@ -1,38 +1,45 @@
 let img;
 let leftPg;
-let maskPg;
-cnv.parent("container");
 
 let scaleFactor = 0.5;
 let brushSize = 100;
+
+let cnv;
 
 function preload() {
   img = loadImage("anuradha.jpg");
 }
 
 function setup() {
-let cnv;
-
-function setup() {
-  cnv = createCanvas(displayW * 2, displayH);
-  cnv.parent("container");   // ← THIS LINE IS MANDATORY
-}
-
-  let displayW = int(img.width * scaleFactor);
-  let displayH = int(img.height * scaleFactor);
-
-  createCanvas(displayW * 2, displayH);
+  createResponsiveCanvas();
 
   leftPg = createGraphics(img.width, img.height);
-  maskPg = createGraphics(img.width, img.height);
 
+  // initialize left side once
+  leftPg.beginDraw();
   leftPg.background(255);
+  leftPg.endDraw();
+}
+
+function createResponsiveCanvas() {
+  let h = windowHeight * 0.88;   // leave space for text
+  let w = h * 2;                 // two images side by side
+
+  cnv = createCanvas(w, h);
+  cnv.parent("container");
+}
+
+function windowResized() {
+  createResponsiveCanvas();
 }
 
 function draw() {
   background(255);
 
+  // draw left result
   image(leftPg, 0, 0, width/2, height);
+
+  // draw right source
   image(img, width/2, 0, width/2, height);
 }
 
@@ -46,8 +53,10 @@ function mouseDragged() {
 
 function transfer() {
 
+  // only work on RIGHT side
   if (mouseX < width/2) return;
 
+  // map mouse to original image space
   let mx = map(mouseX - width/2, 0, width/2, 0, img.width);
   let my = map(mouseY, 0, height, 0, img.height);
 
@@ -56,45 +65,21 @@ function transfer() {
 
   let r = int((brushSize / scaleFactor) / 2);
 
-  // ----- 1. EXTRACT REGION AS IMAGE -----
-  let region = img.get(
-    srcX - r,
-    srcY - r,
-    r * 2,
-    r * 2
+  // ---- COPY TO LEFT ----
+  leftPg.beginDraw();
+
+  leftPg.copy(
+    img,
+    srcX - r, srcY - r,
+    r * 2, r * 2,
+
+    srcX - r, srcY - r,
+    r * 2, r * 2
   );
 
-  // ----- 2. CREATE CIRCULAR MASK IMAGE -----
-  let m = createImage(r * 2, r * 2);
-  m.loadPixels();
+  leftPg.endDraw();
 
-  for (let x = 0; x < r*2; x++) {
-    for (let y = 0; y < r*2; y++) {
-
-      let dx = x - r;
-      let dy = y - r;
-
-      let inside = dx*dx + dy*dy <= r*r;
-
-      let alpha = inside ? 255 : 0;
-
-      let index = 4 * (y * m.width + x);
-      m.pixels[index + 0] = 255;
-      m.pixels[index + 1] = 255;
-      m.pixels[index + 2] = 255;
-      m.pixels[index + 3] = alpha;
-    }
-  }
-
-  m.updatePixels();
-
-  // ----- 3. MASK THE IMAGE (VALID IN P5) -----
-  region.mask(m);
-
-  // ----- 4. DRAW TO LEFT -----
-  leftPg.image(region, srcX - r, srcY - r);
-
-  // ----- 5. ERASE FROM RIGHT -----
+  // ---- ERASE FROM RIGHT ----
   img.loadPixels();
 
   for (let x = -r; x <= r; x++) {
@@ -107,14 +92,13 @@ function transfer() {
         continue;
 
       if (x*x + y*y <= r*r) {
-        img.set(px, py, color(255));
+        img.pixels[py * img.width + px] = color(255);
       }
     }
   }
 
   img.updatePixels();
 }
-
 
 function keyPressed() {
 
@@ -123,8 +107,8 @@ function keyPressed() {
 
   brushSize = constrain(brushSize, 20, 300);
 
-  // SAVE WHOLE CANVAS
-  if (key == 's') {
-    saveCanvas("transfer_result", "png");
+  // SAVE WHOLE WINDOW
+  if (key == 's' || key == 'S') {
+    saveCanvas('transfer_capture', 'png');
   }
 }
