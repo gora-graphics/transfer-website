@@ -17,7 +17,7 @@ function setup() {
 
   // initialize left side once
   leftPg.beginDraw();
-  leftPg.background(255);
+  leftPg.background(0);
   leftPg.endDraw();
 }
 
