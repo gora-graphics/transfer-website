@@ -7,7 +7,7 @@ let brushSize = 100;
 let cnv;
 
 function preload() {
-  img = loadImage("anuradha.jpg");
+  img = loadImage("DSC02328.jpg");
 }
 
 function setup() {
